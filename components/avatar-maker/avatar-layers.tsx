@@ -114,42 +114,44 @@ export const AvatarLayers = forwardRef<HTMLDivElement, AvatarLayersProps>(functi
       aria-label="Pré-visualização do avatar"
     >
       <div className="absolute left-1/2 top-1/2" style={layerCanvasStyle}>
-        {layers.map((layer) => {
-          if (layer.colorTint) {
+        <div className="w-full h-full animate-sway">
+          {layers.map((layer) => {
+            if (layer.colorTint) {
+              return (
+                <div
+                  key={`${layer.id}-${layer.src}-${layer.colorTint}`}
+                  style={{
+                    ...layerImgStyle,
+                    zIndex: layer.zIndex,
+                    backgroundColor: layer.colorTint,
+                    WebkitMaskImage: `url(${layer.src})`,
+                    WebkitMaskSize: "contain",
+                    WebkitMaskPosition: "center",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskImage: `url(${layer.src})`,
+                    maskSize: "contain",
+                    maskPosition: "center",
+                    maskRepeat: "no-repeat",
+                  }}
+                />
+              )
+            }
+
             return (
-              <div
-                key={`${layer.id}-${layer.src}-${layer.colorTint}`}
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={`${layer.id}-${layer.src}`}
+                src={layer.src}
+                alt={layer.id}
+                draggable={false}
                 style={{
                   ...layerImgStyle,
                   zIndex: layer.zIndex,
-                  backgroundColor: layer.colorTint,
-                  WebkitMaskImage: `url(${layer.src})`,
-                  WebkitMaskSize: "contain",
-                  WebkitMaskPosition: "center",
-                  WebkitMaskRepeat: "no-repeat",
-                  maskImage: `url(${layer.src})`,
-                  maskSize: "contain",
-                  maskPosition: "center",
-                  maskRepeat: "no-repeat",
                 }}
               />
             )
-          }
-
-          return (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              key={`${layer.id}-${layer.src}`}
-              src={layer.src}
-              alt={layer.id}
-              draggable={false}
-              style={{
-                ...layerImgStyle,
-                zIndex: layer.zIndex,
-              }}
-            />
-          )
-        })}
+          })}
+        </div>
       </div>
     </div>
   )

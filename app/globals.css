@@ -62,3 +62,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes sway {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(-0.5deg);
+  }
+
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+.animate-sway {
+  animation: sway 5s ease-in-out infinite;
+  transform-origin: bottom center;
+}
