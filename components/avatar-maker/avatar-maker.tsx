@@ -2,9 +2,6 @@
 
 import Image from "next/image"
 import { useCallback, useEffect, useRef, useState } from "react"
-import { Download, RefreshCw, Shuffle } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
 import { AvatarLayers, getLayerSources } from "./avatar-layers"
 import {
   type HairColorId,
@@ -112,14 +109,12 @@ function NoneOption({
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
     <section className="space-y-3">
-      <Label className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+      <label className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
         {title}
-      </Label>
+      </label>
       {children}
     </section>
-  )
 }
 
 export function AvatarMaker() {
@@ -211,29 +206,30 @@ export function AvatarMaker() {
           <AvatarLayers ref={previewRef} config={config} manifest={manifest} />
         </div>
         <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-          <Button
+          <button
             type="button"
-            variant="outline"
-            className="rounded-full border-foreground/10 bg-white px-5"
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-5 border border-foreground/10 bg-white shadow-sm hover:bg-accent hover:text-accent-foreground"
             onClick={handleRandomize}
           >
-            <Shuffle className="size-4" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-4 shrink-0"><polyline points="16 3 21 3 21 8"/><line x1="4" x2="21" y1="20" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" x2="21" y1="15" y2="21"/><line x1="4" x2="9" y1="4" y2="9"/></svg>
             Aleatório
-          </Button>
-          <Button
+          </button>
+          <button
             type="button"
-            variant="outline"
-            size="icon"
-            className="rounded-full border-foreground/10 bg-white"
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 w-9 border border-foreground/10 bg-white shadow-sm hover:bg-accent hover:text-accent-foreground"
             onClick={handleReset}
             aria-label="Reiniciar"
           >
-            <RefreshCw className="size-4" />
-          </Button>
-          <Button type="button" className="rounded-full px-5" onClick={handleDownload}>
-            <Download className="size-4" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-4 shrink-0"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          </button>
+          <button 
+            type="button" 
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-5 bg-primary text-primary-foreground shadow flex-shrink-0 hover:bg-primary/90" 
+            onClick={handleDownload}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-4 shrink-0"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
             Baixar PNG
-          </Button>
+          </button>
         </div>
       </div>
 
