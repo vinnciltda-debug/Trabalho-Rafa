@@ -53,7 +53,7 @@ function ThumbnailOption({
           : "border-transparent hover:border-foreground/20",
       )}
     >
-      <Image src={src} alt="" fill className="object-contain p-1" sizes="80px" unoptimized />
+      <Image src={src} alt="" fill className="object-contain p-1" sizes="(max-width: 768px) 80px, 120px" />
     </button>
   )
 }
