@@ -15,6 +15,7 @@ import {
   hairPath,
   mouthPath,
   skinPath,
+  getHairColorSwatch
 } from "./avatar-assets"
 import { cn } from "@/lib/utils"
 
@@ -28,6 +29,7 @@ export interface AvatarLayerSource {
   id: LayerId
   src: string
   zIndex: number
+  colorTint?: string
 }
 
 export function getLayerSources(
@@ -41,8 +43,9 @@ export function getLayerSources(
     { id: "mouth", src: mouthPath(config.mouthIndex), zIndex: LAYER_Z_INDEX.mouth },
     {
       id: "hair",
-      src: hairPath(config.hairColor, config.hairStyleIndex, manifest),
+      src: hairPath("preto", config.hairStyleIndex, manifest), // Agora sempre carrega o preto como base (usado apenas como máscara de transparência)
       zIndex: LAYER_Z_INDEX.hair,
+      colorTint: getHairColorSwatch(config.hairColor)
     },
   ]
 
@@ -111,19 +114,42 @@ export const AvatarLayers = forwardRef<HTMLDivElement, AvatarLayersProps>(functi
       aria-label="Pré-visualização do avatar"
     >
       <div className="absolute left-1/2 top-1/2" style={layerCanvasStyle}>
-        {layers.map((layer) => (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            key={`${layer.id}-${layer.src}`}
-            src={layer.src}
-            alt={layer.id}
-            draggable={false}
-            style={{
-              ...layerImgStyle,
-              zIndex: layer.zIndex,
-            }}
-          />
-        ))}
+        {layers.map((layer) => {
+          if (layer.colorTint) {
+            return (
+              <div
+                key={`${layer.id}-${layer.src}-${layer.colorTint}`}
+                style={{
+                  ...layerImgStyle,
+                  zIndex: layer.zIndex,
+                  backgroundColor: layer.colorTint,
+                  WebkitMaskImage: `url(${layer.src})`,
+                  WebkitMaskSize: "contain",
+                  WebkitMaskPosition: "center",
+                  WebkitMaskRepeat: "no-repeat",
+                  maskImage: `url(${layer.src})`,
+                  maskSize: "contain",
+                  maskPosition: "center",
+                  maskRepeat: "no-repeat",
+                }}
+              />
+            )
+          }
+
+          return (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={`${layer.id}-${layer.src}`}
+              src={layer.src}
+              alt={layer.id}
+              draggable={false}
+              style={{
+                ...layerImgStyle,
+                zIndex: layer.zIndex,
+              }}
+            />
+          )
+        })}
       </div>
     </div>
   )

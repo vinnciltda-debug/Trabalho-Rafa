@@ -185,7 +185,22 @@ export function AvatarMaker() {
       const h = img.naturalHeight * scale
       const x = (size - w) / 2
       const y = (size - h) / 2
-      ctx.drawImage(img, x, y, w, h)
+
+      if (layer.colorTint) {
+        const offCanvas = document.createElement("canvas")
+        offCanvas.width = size
+        offCanvas.height = size
+        const offCtx = offCanvas.getContext("2d")
+        if (offCtx) {
+          offCtx.drawImage(img, x, y, w, h)
+          offCtx.globalCompositeOperation = "source-in"
+          offCtx.fillStyle = layer.colorTint
+          offCtx.fillRect(0, 0, size, size)
+          ctx.drawImage(offCanvas, 0, 0)
+        }
+      } else {
+        ctx.drawImage(img, x, y, w, h)
+      }
     }
 
     const link = document.createElement("a")
